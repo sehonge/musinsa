@@ -1,0 +1,18 @@
+spring:
+  jpa:
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        timezone.default_storage: NORMALIZE
+        jdbc:
+          time_zone: Asia/Seoul
+    show-sql: true
+    database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true
+      path: /h2-console

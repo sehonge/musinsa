@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: musinsa
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  config:
+    import:
+      - application-datasource.yaml
+      - application-jpa.yaml
+
+---
+spring.config.activate.on-profile: dev
