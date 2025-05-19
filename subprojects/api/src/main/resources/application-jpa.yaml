@@ -7,12 +7,21 @@ spring:
     open-in-view: false
     properties:
       hibernate:
-        timezone.default_storage: NORMALIZE
+        globally_quoted_identifiers: true
         jdbc:
           time_zone: Asia/Seoul
+        format_sql: true
     show-sql: true
     database-platform: org.hibernate.dialect.H2Dialect
   h2:
     console:
       enabled: true
       path: /h2-console
+
+logging:
+  level:
+    org.springframework.jdbc.datasource: DEBUG
+    com.zaxxer.hikari: TRACE
+    com.zaxxer.hikari.HikariConfig: DEBUG
+    org.hibernate.type: debug
+

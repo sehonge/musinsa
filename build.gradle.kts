@@ -70,3 +70,6 @@ subprojects {
         useJUnitPlatform()
     }
 }
+
+tasks.jar.get().enabled = true
+tasks.bootJar.get().enabled = false

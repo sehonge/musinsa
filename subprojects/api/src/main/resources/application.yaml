@@ -8,6 +8,11 @@ spring:
     import:
       - application-datasource.yaml
       - application-jpa.yaml
+  jackson:
+    time-zone: Asia/Seoul
 
----
-spring.config.activate.on-profile: dev
+server:
+  servlet:
+    context-path: /api
+  shutdown: graceful
+  port: 8080
