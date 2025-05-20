@@ -12,6 +12,7 @@ interface ItemRepository : JpaRepository<ItemEntity, Long>, UserCustomRepository
 
 interface UserCustomRepository {
     fun findItem(brand: String, category: ItemCategory): ItemEntity?
+    fun findItemById(id: Long): ItemEntity?
 }
 
 open class UserCustomRepositoryImpl(
@@ -24,6 +25,16 @@ open class UserCustomRepositoryImpl(
             .where(
                 itemEntity.brand.eq(brand),
                 itemEntity.category.eq(category),
+                itemEntity.isDeleted.isFalse,
+            )
+            .fetchOne()
+    }
+
+    override fun findItemById(id: Long): ItemEntity? {
+        return jpaQueryFactory
+            .selectFrom(itemEntity)
+            .where(
+                itemEntity.id.eq(id),
                 itemEntity.isDeleted.isFalse,
             )
             .fetchOne()

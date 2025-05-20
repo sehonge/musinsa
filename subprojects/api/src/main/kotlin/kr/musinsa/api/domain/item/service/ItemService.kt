@@ -6,6 +6,7 @@ import kr.musinsa.api.domain.item.dto.ItemUpdateRequest
 import kr.musinsa.domain.item.model.ItemEntity
 import kr.musinsa.domain.item.model.enums.ItemCategory
 import kr.musinsa.domain.item.repository.ItemRepository
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -23,7 +24,13 @@ class ItemService(
 
     @Transactional
     fun updateItem(itemId: Long, request: ItemUpdateRequest): Boolean {
-        return TODO()
+        val item = itemRepository.findItemById(itemId) ?: throw MusinsaException(
+            clientMessage = "존재하지 않는 상품입니다.",
+            debugMessage = "Item NotFound. $itemId"
+        )
+        item.price = request.price
+
+        return true
     }
 
     private fun checkAlreadyRegistered(brand: String, category: ItemCategory) {

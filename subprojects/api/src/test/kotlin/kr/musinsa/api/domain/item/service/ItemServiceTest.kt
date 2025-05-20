@@ -49,10 +49,6 @@ internal class ItemServiceTest {
         @DisplayName("생성하고자 하는 상품이 이미 존재하는 경우")
         inner class ItemAlreadyExistsCase {
             val itemEntity = ItemEntityFixture.validAny()
-            val exception = MusinsaException(
-                clientMessage = "이미 등록한 상품입니다.",
-                debugMessage = "Already Registered Item"
-            )
 
             @BeforeEach
             fun setUp() {
@@ -80,9 +76,11 @@ internal class ItemServiceTest {
         @Nested
         @DisplayName("상품 정보 업데이트에 성공한 경우")
         inner class SuccessCase {
+            val itemEntity = ItemEntityFixture.validAny()
+
             @BeforeEach
             fun setUp() {
-
+                whenever(itemRepository.findItemById(any())).thenReturn(itemEntity)
             }
 
             @Test
@@ -96,14 +94,9 @@ internal class ItemServiceTest {
         @Nested
         @DisplayName("업데이트 하고자 하는 상품이 존재하지 않는 경우")
         inner class ItemAlreadyExistsCase {
-            val exception = MusinsaException(
-                clientMessage = "이미 등록한 상품입니다.",
-                debugMessage = "Already Registered Item"
-            )
-
             @BeforeEach
             fun setUp() {
-
+                whenever(itemRepository.findItemById(any())).thenReturn(null)
             }
 
             @Test
