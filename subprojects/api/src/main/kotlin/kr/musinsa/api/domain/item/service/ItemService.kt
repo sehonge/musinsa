@@ -35,7 +35,13 @@ class ItemService(
 
     @Transactional
     fun deleteItem(itemId: Long): Boolean {
-        return TODO()
+        itemRepository.findItemById(itemId) ?: throw MusinsaException(
+            clientMessage = "존재하지 않는 상품입니다.",
+            debugMessage = "Item NotFound. $itemId"
+        )
+        itemRepository.deleteItemById(itemId)
+
+        return true
     }
 
     private fun checkAlreadyRegistered(brand: String, category: ItemCategory) {

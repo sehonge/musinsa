@@ -7,9 +7,7 @@ import kr.musinsa.api.fixture.item.ItemEntityFixture
 import kr.musinsa.domain.item.model.enums.ItemCategory
 import kr.musinsa.domain.item.repository.ItemRepository
 import org.junit.jupiter.api.*
-import org.mockito.kotlin.any
-import org.mockito.kotlin.mock
-import org.mockito.kotlin.whenever
+import org.mockito.kotlin.*
 
 internal class ItemServiceTest {
     private val itemRepository = mock<ItemRepository>()
@@ -109,10 +107,22 @@ internal class ItemServiceTest {
         val itemId = 200L
 
         @Nested
-        @DisplayName("상품 삭제에 성공한 경우")
+        @DisplayName("삭제할 상품이 존재하는 경우")
         inner class SuccessCase {
+            val itemEntity = ItemEntityFixture.validAny()
+
             @BeforeEach
             fun setUp() {
+                whenever(itemRepository.findItemById(any())).thenReturn(itemEntity)
+                whenever(itemRepository.deleteItemById(any())).thenReturn(1L)
+            }
+
+            @Test
+            @DisplayName("상품을 삭제한다")
+            fun `상품을 삭제한다`() {
+                itemService.deleteItem(itemId)
+
+                verify(itemRepository, times(1)).deleteItemById(any())
             }
 
             @Test
@@ -124,10 +134,11 @@ internal class ItemServiceTest {
         }
 
         @Nested
-        @DisplayName("업데이트 하고자 하는 상품이 존재하지 않는 경우")
+        @DisplayName("삭제할 상품이 존재하지 않는 경우")
         inner class ItemAlreadyExistsCase {
             @BeforeEach
             fun setUp() {
+                whenever(itemRepository.findItemById(any())).thenReturn(null)
             }
 
             @Test

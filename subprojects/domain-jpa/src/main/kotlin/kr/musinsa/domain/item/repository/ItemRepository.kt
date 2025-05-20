@@ -5,6 +5,7 @@ import kr.musinsa.domain.item.model.ItemEntity
 import kr.musinsa.domain.item.model.QItemEntity
 import kr.musinsa.domain.item.model.enums.ItemCategory
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Modifying
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -13,6 +14,8 @@ interface ItemRepository : JpaRepository<ItemEntity, Long>, UserCustomRepository
 interface UserCustomRepository {
     fun findItem(brand: String, category: ItemCategory): ItemEntity?
     fun findItemById(id: Long): ItemEntity?
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    fun deleteItemById(id: Long): Long
 }
 
 open class UserCustomRepositoryImpl(
@@ -38,5 +41,14 @@ open class UserCustomRepositoryImpl(
                 itemEntity.isDeleted.isFalse,
             )
             .fetchOne()
+    }
+
+    override fun deleteItemById(id: Long): Long {
+        return jpaQueryFactory
+            .delete(itemEntity)
+            .where(
+                itemEntity.id.eq(id)
+            )
+            .execute()
     }
 }
