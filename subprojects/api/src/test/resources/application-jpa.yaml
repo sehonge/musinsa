@@ -1,0 +1,22 @@
+spring.config.activate.on-profile: test, default
+
+spring:
+  jpa:
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      ddl-auto: create-drop
+    open-in-view: false
+    properties:
+      hibernate:
+        globally_quoted_identifiers: true
+        jdbc:
+          time_zone: Asia/Seoul
+        format_sql: true
+    show-sql: true
+    database-platform: org.hibernate.dialect.H2Dialect
+    database: h2
+  h2:
+    console:
+      enabled: true
+      path: /h2-console

@@ -1,0 +1,15 @@
+spring.config.activate.on-profile: test, default
+
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  config:
+    import:
+      - application-datasource.yaml
+      - application-jpa.yaml
+  jackson:
+    time-zone: Asia/Seoul
+
+file:
+  base-path: resources

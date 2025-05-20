@@ -68,3 +68,6 @@ out/
 ### Kotlin ###
 .kotlin
 >>>>>>> 14fc6e7 (project initialize)
+
+# Jqwik test data
+.jqwik-database
