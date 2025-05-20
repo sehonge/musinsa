@@ -33,6 +33,11 @@ class ItemService(
         return true
     }
 
+    @Transactional
+    fun deleteItem(itemId: Long): Boolean {
+        return TODO()
+    }
+
     private fun checkAlreadyRegistered(brand: String, category: ItemCategory) {
         val item = itemRepository.findItem(brand, category)
         if (item != null) {

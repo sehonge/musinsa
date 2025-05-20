@@ -3,6 +3,7 @@ package kr.musinsa.api.domain.item.controller
 import kr.musinsa.api.domain.item.dto.ItemCreateRequest
 import kr.musinsa.api.domain.item.dto.ItemUpdateRequest
 import kr.musinsa.api.domain.item.service.ItemService
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -28,5 +29,12 @@ class ItemController(
         @RequestBody request: ItemUpdateRequest,
     ): Boolean {
         return itemService.updateItem(itemId, request)
+    }
+
+    @DeleteMapping("/items/{itemId}")
+    fun deleteItem(
+        @PathVariable itemId: Long,
+    ): Boolean {
+        return itemService.deleteItem(itemId)
     }
 }
