@@ -22,7 +22,7 @@ class ItemService(
     }
 
     @Transactional
-    fun updateItem(request: ItemUpdateRequest): Boolean {
+    fun updateItem(itemId: Long, request: ItemUpdateRequest): Boolean {
         return TODO()
     }
 

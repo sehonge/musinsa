@@ -136,7 +136,7 @@ internal class ItemControllerTest: AbstractControllerTest() {
             inner class SuccessCase {
                 @BeforeEach
                 fun setUp() {
-                    whenever(itemService.updateItem(any())).thenReturn(true)
+                    whenever(itemService.updateItem(any(), any())).thenReturn(true)
                 }
 
                 @Test
@@ -182,7 +182,7 @@ internal class ItemControllerTest: AbstractControllerTest() {
 
                 @BeforeEach
                 fun setUp() {
-                    whenever(itemService.updateItem(any())).thenThrow(exception)
+                    whenever(itemService.updateItem(any(), any())).thenThrow(exception)
                 }
 
                 @Test

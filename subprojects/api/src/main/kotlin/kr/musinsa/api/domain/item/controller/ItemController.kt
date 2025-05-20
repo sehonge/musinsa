@@ -27,6 +27,6 @@ class ItemController(
         @PathVariable itemId: Long,
         @RequestBody request: ItemUpdateRequest,
     ): Boolean {
-        return itemService.updateItem(request)
+        return itemService.updateItem(itemId, request)
     }
 }

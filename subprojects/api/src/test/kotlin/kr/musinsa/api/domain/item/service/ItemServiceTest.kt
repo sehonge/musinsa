@@ -2,6 +2,7 @@ package kr.musinsa.api.domain.item.service
 
 import kr.musinsa.api.common.exception.MusinsaException
 import kr.musinsa.api.domain.item.dto.ItemCreateRequest
+import kr.musinsa.api.domain.item.dto.ItemUpdateRequest
 import kr.musinsa.api.fixture.item.ItemEntityFixture
 import kr.musinsa.domain.item.model.enums.ItemCategory
 import kr.musinsa.domain.item.repository.ItemRepository
@@ -60,9 +61,56 @@ internal class ItemServiceTest {
 
             @Test
             @DisplayName("MusinsaException를 던진다")
-            fun `true를 리턴한다`() {
+            fun `MusinsaException를 던진다`() {
                 Assertions.assertThrows(MusinsaException::class.java) {
                     itemService.createItem(request)
+                }
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("updateItem 함수는")
+    inner class UpdateItemTest {
+        val itemId = 200L
+        val request = ItemUpdateRequest(
+            price = 11200,
+            adminId = 200L,
+        )
+        @Nested
+        @DisplayName("상품 정보 업데이트에 성공한 경우")
+        inner class SuccessCase {
+            @BeforeEach
+            fun setUp() {
+
+            }
+
+            @Test
+            @DisplayName("true를 리턴한다")
+            fun `true를 리턴한다`() {
+                val result = itemService.updateItem(itemId, request)
+                Assertions.assertEquals(true, result)
+            }
+        }
+
+        @Nested
+        @DisplayName("업데이트 하고자 하는 상품이 존재하지 않는 경우")
+        inner class ItemAlreadyExistsCase {
+            val exception = MusinsaException(
+                clientMessage = "이미 등록한 상품입니다.",
+                debugMessage = "Already Registered Item"
+            )
+
+            @BeforeEach
+            fun setUp() {
+
+            }
+
+            @Test
+            @DisplayName("MusinsaException를 던진다")
+            fun `MusinsaException를 던진다`() {
+                Assertions.assertThrows(MusinsaException::class.java) {
+                    itemService.updateItem(itemId, request)
                 }
             }
         }
