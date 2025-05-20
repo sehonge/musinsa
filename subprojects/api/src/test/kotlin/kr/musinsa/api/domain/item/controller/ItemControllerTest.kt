@@ -23,8 +23,7 @@ internal class ItemControllerTest: AbstractControllerTest() {
                     {
                         "brand" : "A",
                         "category" : "OUTER",
-                        "price" : 5500,
-                        "adminId" : 1
+                        "price" : 5500
                     }
                 """.trimIndent()
 
@@ -125,8 +124,7 @@ internal class ItemControllerTest: AbstractControllerTest() {
         inner class UpdateItemTest {
             val request = """
                     {
-                        "price" : 5500,
-                        "adminId" : 1
+                        "price" : 5500
                     }
                 """.trimIndent()
             val itemId = 1

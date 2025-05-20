@@ -6,11 +6,7 @@ import kr.musinsa.api.domain.item.dto.ItemUpdateRequest
 import kr.musinsa.api.fixture.item.ItemEntityFixture
 import kr.musinsa.domain.item.model.enums.ItemCategory
 import kr.musinsa.domain.item.repository.ItemRepository
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Nested
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.*
 import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
@@ -26,7 +22,6 @@ internal class ItemServiceTest {
             brand = "A",
             category = ItemCategory.TOP,
             price = 11200,
-            adminId = 200L,
         )
         @Nested
         @DisplayName("상품 생성에 성공한 경우")
@@ -71,7 +66,6 @@ internal class ItemServiceTest {
         val itemId = 200L
         val request = ItemUpdateRequest(
             price = 11200,
-            adminId = 200L,
         )
         @Nested
         @DisplayName("상품 정보 업데이트에 성공한 경우")

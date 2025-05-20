@@ -6,5 +6,4 @@ data class ItemCreateRequest(
     val brand: String,
     val category: ItemCategory,
     val price: Int,
-    val adminId: Long,
 )

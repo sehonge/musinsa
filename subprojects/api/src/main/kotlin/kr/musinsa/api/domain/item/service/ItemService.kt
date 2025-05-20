@@ -47,7 +47,7 @@ class ItemService(
         return ItemEntity(
             brand = request.brand,
             category = request.category,
-            price = request.price
+            price = request.price,
         )
     }
 }

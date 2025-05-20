@@ -28,18 +28,4 @@ class BaseEntity(
         nullable = false,
     )
     var updatedAt: ZonedDateTime = ZonedDateTime.now(KST),
-
-    @Column(
-        name = "created_by",
-        updatable = true,
-        nullable = false,
-    )
-    var createdBy: String = "admin",
-
-    @Column(
-        name = "updated_by",
-        updatable = true,
-        nullable = false,
-    )
-    var updatedBy: String = "admin",
 )
