@@ -102,4 +102,41 @@ internal class ItemServiceTest {
             }
         }
     }
+
+    @Nested
+    @DisplayName("deleteItem 함수는")
+    inner class DeleteItemTest {
+        val itemId = 200L
+
+        @Nested
+        @DisplayName("상품 삭제에 성공한 경우")
+        inner class SuccessCase {
+            @BeforeEach
+            fun setUp() {
+            }
+
+            @Test
+            @DisplayName("true를 리턴한다")
+            fun `true를 리턴한다`() {
+                val result = itemService.deleteItem(itemId)
+                Assertions.assertEquals(true, result)
+            }
+        }
+
+        @Nested
+        @DisplayName("업데이트 하고자 하는 상품이 존재하지 않는 경우")
+        inner class ItemAlreadyExistsCase {
+            @BeforeEach
+            fun setUp() {
+            }
+
+            @Test
+            @DisplayName("MusinsaException를 던진다")
+            fun `MusinsaException를 던진다`() {
+                Assertions.assertThrows(MusinsaException::class.java) {
+                    itemService.deleteItem(itemId)
+                }
+            }
+        }
+    }
 }
