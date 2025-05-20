@@ -24,4 +24,9 @@ class ItemEntity(
         name = "price"
     )
     var price: Int,
+
+    @Column(
+        name = "is_deleted"
+    )
+    var isDeleted: Boolean = false
 ) : BaseEntity()

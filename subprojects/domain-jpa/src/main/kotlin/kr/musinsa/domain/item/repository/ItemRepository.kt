@@ -2,14 +2,30 @@ package kr.musinsa.domain.item.repository
 
 import com.querydsl.jpa.impl.JPAQueryFactory
 import kr.musinsa.domain.item.model.ItemEntity
+import kr.musinsa.domain.item.model.QItemEntity
+import kr.musinsa.domain.item.model.enums.ItemCategory
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
 interface ItemRepository : JpaRepository<ItemEntity, Long>, UserCustomRepository
 
-interface UserCustomRepository
+interface UserCustomRepository {
+    fun findItem(brand: String, category: ItemCategory): ItemEntity?
+}
 
 open class UserCustomRepositoryImpl(
     private val jpaQueryFactory: JPAQueryFactory,
-): UserCustomRepository
+): UserCustomRepository {
+    private val itemEntity = QItemEntity.itemEntity
+    override fun findItem(brand: String, category: ItemCategory): ItemEntity? {
+        return jpaQueryFactory
+            .selectFrom(itemEntity)
+            .where(
+                itemEntity.brand.eq(brand),
+                itemEntity.category.eq(category),
+                itemEntity.isDeleted.isFalse,
+            )
+            .fetchOne()
+    }
+}

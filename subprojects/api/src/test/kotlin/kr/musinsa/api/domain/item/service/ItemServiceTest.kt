@@ -2,6 +2,7 @@ package kr.musinsa.api.domain.item.service
 
 import kr.musinsa.api.common.exception.MusinsaException
 import kr.musinsa.api.domain.item.dto.ItemRequest
+import kr.musinsa.api.fixture.item.ItemEntityFixture
 import kr.musinsa.domain.item.model.enums.ItemCategory
 import kr.musinsa.domain.item.repository.ItemRepository
 import org.junit.jupiter.api.Assertions
@@ -9,7 +10,9 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
+import org.mockito.kotlin.whenever
 
 internal class ItemServiceTest {
     private val itemRepository = mock<ItemRepository>()
@@ -29,7 +32,7 @@ internal class ItemServiceTest {
         inner class SuccessCase {
             @BeforeEach
             fun setUp() {
-
+                whenever(itemRepository.findItem(any(), any())).thenReturn(null)
             }
 
             @Test
@@ -44,6 +47,7 @@ internal class ItemServiceTest {
         @Nested
         @DisplayName("생성하고자 하는 상품이 이미 존재하는 경우")
         inner class ItemAlreadyExistsCase {
+            val itemEntity = ItemEntityFixture.validAny()
             val exception = MusinsaException(
                 clientMessage = "이미 등록한 상품입니다.",
                 debugMessage = "Already Registered Item"
@@ -51,7 +55,7 @@ internal class ItemServiceTest {
 
             @BeforeEach
             fun setUp() {
-
+                whenever(itemRepository.findItem(any(), any())).thenReturn(itemEntity)
             }
 
             @Test

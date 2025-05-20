@@ -72,7 +72,7 @@ internal class ItemControllerTest: AbstractControllerTest() {
             @DisplayName("생성하고자 하는 상품이 이미 존재하는 경우")
             inner class ItemAlreadyExistsCase {
                 val exception = MusinsaException(
-                    clientMessage = "이미 등록한 상품입니다.",
+                    clientMessage = "이미 등록된 상품입니다.",
                     debugMessage = "Already Registered Item"
                 )
 
