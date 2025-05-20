@@ -1,7 +1,7 @@
 package kr.musinsa.api.domain.item.service
 
 import kr.musinsa.api.common.exception.MusinsaException
-import kr.musinsa.api.domain.item.dto.ItemRequest
+import kr.musinsa.api.domain.item.dto.ItemCreateRequest
 import kr.musinsa.api.fixture.item.ItemEntityFixture
 import kr.musinsa.domain.item.model.enums.ItemCategory
 import kr.musinsa.domain.item.repository.ItemRepository
@@ -21,7 +21,7 @@ internal class ItemServiceTest {
     @Nested
     @DisplayName("createItem 함수는")
     inner class CreateItemTest {
-        val request = ItemRequest(
+        val request = ItemCreateRequest(
             brand = "A",
             category = ItemCategory.TOP,
             price = 11200,
