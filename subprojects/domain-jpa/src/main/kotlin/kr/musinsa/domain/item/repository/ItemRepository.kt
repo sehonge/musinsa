@@ -14,6 +14,8 @@ interface ItemRepository : JpaRepository<ItemEntity, Long>, UserCustomRepository
 interface UserCustomRepository {
     fun findItem(brand: String, category: ItemCategory): ItemEntity?
     fun findItemById(id: Long): ItemEntity?
+    fun findMinPriceByCategory(category: ItemCategory): ItemEntity?
+    fun findMaxPriceByCategory(category: ItemCategory): ItemEntity?
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     fun deleteItemById(id: Long): Long
 }
@@ -40,6 +42,30 @@ open class UserCustomRepositoryImpl(
                 itemEntity.id.eq(id),
                 itemEntity.isDeleted.isFalse,
             )
+            .fetchOne()
+    }
+
+    override fun findMinPriceByCategory(category: ItemCategory): ItemEntity? {
+        return jpaQueryFactory
+            .selectFrom(itemEntity)
+            .where(
+                itemEntity.category.eq(category),
+                itemEntity.isDeleted.isFalse
+            )
+            .orderBy(itemEntity.price.asc())
+            .limit(1L)
+            .fetchOne()
+    }
+
+    override fun findMaxPriceByCategory(category: ItemCategory): ItemEntity? {
+        return jpaQueryFactory
+            .selectFrom(itemEntity)
+            .where(
+                itemEntity.category.eq(category),
+                itemEntity.isDeleted.isFalse
+            )
+            .orderBy(itemEntity.price.desc())
+            .limit(1L)
             .fetchOne()
     }
 

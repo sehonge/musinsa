@@ -91,7 +91,7 @@ internal class CategoryControllerTest: AbstractControllerTest() {
 
             @Nested
             @DisplayName("조회하고자 하는 카테고리에 상품이 존재하지 않는 경우")
-            inner class ItemAlreadyExistsCase {
+            inner class ItemNotFoundCase {
                 val exception = MusinsaException(
                     clientMessage = "해당 카테고리에 상품이 존재하지 않습니다.",
                     debugMessage = "Item Not Found"
