@@ -4,11 +4,11 @@ import kr.musinsa.domain.item.model.enums.ItemCategory
 
 data class CategoryMinMaxPriceResponse(
     val category: ItemCategory,
-    val minPrice: Item,
-    val maxPrice: Item,
+    val minPrice: ItemDto,
+    val maxPrice: ItemDto,
 )
 
-data class Item(
+data class ItemDto(
     val brand: String,
     val price: Int,
 )

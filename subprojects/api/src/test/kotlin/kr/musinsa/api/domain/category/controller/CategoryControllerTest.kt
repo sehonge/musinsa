@@ -3,7 +3,7 @@ package kr.musinsa.api.domain.category.controller
 import kr.musinsa.api.common.AbstractControllerTest
 import kr.musinsa.api.common.exception.MusinsaException
 import kr.musinsa.api.domain.category.dto.CategoryMinMaxPriceResponse
-import kr.musinsa.api.domain.category.dto.Item
+import kr.musinsa.api.domain.category.dto.ItemDto
 import kr.musinsa.domain.item.model.enums.ItemCategory
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
@@ -27,11 +27,11 @@ internal class CategoryControllerTest: AbstractControllerTest() {
             inner class SuccessCase {
                 val response = CategoryMinMaxPriceResponse(
                     category = ItemCategory.TOP,
-                    minPrice = Item(
+                    minPrice = ItemDto(
                         brand = "C",
                         price = 10_000,
                     ),
-                    maxPrice = Item(
+                    maxPrice = ItemDto(
                         brand = "I",
                         price = 11_400,
                     )

@@ -1,6 +1,7 @@
 package kr.musinsa.api.domain.category.controller
 
 import kr.musinsa.api.domain.category.dto.CategoryMinMaxPriceResponse
+import kr.musinsa.api.domain.category.dto.MinPriceItemsResponse
 import kr.musinsa.api.domain.category.service.CategoryService
 import kr.musinsa.domain.item.model.enums.ItemCategory
 import org.springframework.web.bind.annotation.GetMapping
@@ -18,5 +19,10 @@ class CategoryController(
         @PathVariable category: ItemCategory
     ): CategoryMinMaxPriceResponse {
         return categoryService.getMinMaxPriceByCategory(category)
+    }
+
+    @GetMapping("/categories/min-prices")
+    fun getMinPricesByCategory(): MinPriceItemsResponse {
+        return categoryService.getMinPricesByCategory()
     }
 }
