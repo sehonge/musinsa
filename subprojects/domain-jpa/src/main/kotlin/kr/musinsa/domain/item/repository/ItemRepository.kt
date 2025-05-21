@@ -5,8 +5,8 @@ import com.querydsl.jpa.JPAExpressions
 import com.querydsl.jpa.impl.JPAQueryFactory
 import kr.musinsa.domain.item.model.ItemEntity
 import kr.musinsa.domain.item.model.QItemEntity
-import kr.musinsa.domain.item.model.dto.MinPriceItemProjection
-import kr.musinsa.domain.item.model.dto.QMinPriceItemProjection
+import kr.musinsa.domain.item.model.dto.ItemProjection
+import kr.musinsa.domain.item.model.dto.QItemProjection
 import kr.musinsa.domain.item.model.enums.ItemCategory
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
@@ -20,7 +20,8 @@ interface UserCustomRepository {
     fun findItemById(id: Long): ItemEntity?
     fun findMinPriceByCategory(category: ItemCategory): ItemEntity?
     fun findMaxPriceByCategory(category: ItemCategory): ItemEntity?
-    fun findMinPricesByCategory(): List<MinPriceItemProjection>
+    fun findMinPricesByCategory(): List<ItemProjection>
+    fun findMinPriceItemsGroupByBrandAndCategory(): List<ItemProjection>
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     fun deleteItemById(id: Long): Long
 }
@@ -74,7 +75,7 @@ open class UserCustomRepositoryImpl(
             .fetchOne()
     }
 
-    override fun findMinPricesByCategory(): List<MinPriceItemProjection> {
+    override fun findMinPricesByCategory(): List<ItemProjection> {
         val subQuery = JPAExpressions
             .select(itemEntity.category, itemEntity.price.min())
             .from(itemEntity)
@@ -82,7 +83,7 @@ open class UserCustomRepositoryImpl(
 
         return jpaQueryFactory
             .select(
-                QMinPriceItemProjection(
+                QItemProjection(
                     itemEntity.category,
                     itemEntity.brand,
                     itemEntity.price
@@ -92,6 +93,20 @@ open class UserCustomRepositoryImpl(
             .where(
                 Expressions.list(itemEntity.category, itemEntity.price).`in`(subQuery)
             )
+            .fetch()
+    }
+
+    override fun findMinPriceItemsGroupByBrandAndCategory(): List<ItemProjection> {
+        return jpaQueryFactory
+            .select(
+                QItemProjection(
+                    itemEntity.category,
+                    itemEntity.brand,
+                    itemEntity.price.min(),
+                )
+            )
+            .from(itemEntity)
+            .groupBy(itemEntity.brand, itemEntity.category)
             .fetch()
     }
 

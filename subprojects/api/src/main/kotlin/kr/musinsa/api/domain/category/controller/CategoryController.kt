@@ -1,5 +1,6 @@
 package kr.musinsa.api.domain.category.controller
 
+import kr.musinsa.api.domain.category.dto.MinPriceBrandResponse
 import kr.musinsa.api.domain.category.dto.CategoryMinMaxPriceResponse
 import kr.musinsa.api.domain.category.dto.MinPriceItemsResponse
 import kr.musinsa.api.domain.category.service.CategoryService
@@ -24,5 +25,10 @@ class CategoryController(
     @GetMapping("/categories/min-prices")
     fun getMinPricesByCategory(): MinPriceItemsResponse {
         return categoryService.getMinPricesByCategory()
+    }
+
+    @GetMapping("/categories/min-prices/brand")
+    fun getMinPriceBrand(): MinPriceBrandResponse {
+        return categoryService.getMinPriceBrand()
     }
 }

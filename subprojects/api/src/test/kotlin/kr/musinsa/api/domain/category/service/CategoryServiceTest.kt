@@ -2,10 +2,10 @@ package kr.musinsa.api.domain.category.service
 
 import kr.musinsa.api.common.exception.MusinsaException
 import kr.musinsa.api.domain.category.dto.CategoryMinMaxPriceResponse
+import kr.musinsa.api.domain.category.dto.MinPriceBrandResponse
 import kr.musinsa.api.domain.category.dto.MinPriceItemsResponse
 import kr.musinsa.api.fixture.item.ItemEntityFixture
 import kr.musinsa.api.fixture.item.MinPriceItemProjectionFixture
-import kr.musinsa.domain.item.model.dto.MinPriceItemProjection
 import kr.musinsa.domain.item.model.enums.ItemCategory
 import kr.musinsa.domain.item.repository.ItemRepository
 import org.junit.jupiter.api.*
@@ -158,6 +158,72 @@ internal class CategoryServiceTest {
             fun `MusinsaException을 던진다`() {
                 assertThrows<MusinsaException> {
                     categoryService.getMinPricesByCategory()
+                }
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("getMinPriceBrand 함수는")
+    inner class GetMinPriceBrandTest {
+        @Nested
+        @DisplayName("최저가의 단일 브랜드 조회에 성공한 경우")
+        inner class SuccessCase {
+            val minPriceItemProjectionList = MinPriceItemProjectionFixture.validAnySameBrandList()
+
+            @BeforeEach
+            fun setUp() {
+                whenever(itemRepository.findMinPriceItemsGroupByBrandAndCategory()).thenReturn(minPriceItemProjectionList)
+            }
+
+            @Test
+            @DisplayName("MinPriceBrandResponse를 리턴한다")
+            fun `MinPriceBrandResponse를 리턴한다`() {
+                val response = categoryService.getMinPriceBrand()
+
+                Assertions.assertInstanceOf(MinPriceBrandResponse::class.java, response)
+            }
+
+            @Nested
+            @DisplayName("MinPriceBrandResponse에는")
+            inner class MinPriceItemsResponseTest {
+                @Test
+                @DisplayName("totalPrice 정보가 적재된다")
+                fun `totalPrice 정보가 적재된다`() {
+                    val response = categoryService.getMinPriceBrand()
+                    val expectedPrice = minPriceItemProjectionList.sumOf { it.price }
+
+                    Assertions.assertEquals(expectedPrice, response.totalPrice)
+                }
+
+                @Test
+                @DisplayName("총 카테고리 개수만큼 CategoryPriceDto 정보가 적재된다")
+                fun `총 카테고리 개수만큼 CategoryPriceDto 정보가 적재된다`() {
+                    val response = categoryService.getMinPriceBrand()
+
+                    Assertions.assertEquals(ItemCategory.values().size, response.categories.size)
+                }
+            }
+        }
+
+        @Nested
+        @DisplayName("일부 카테고리의 최저가 상품이 누락된 경우")
+        inner class MissingCategoryCase {
+            val partialItems = listOf(
+                MinPriceItemProjectionFixture.validAny(ItemCategory.TOP),
+                MinPriceItemProjectionFixture.validAny(ItemCategory.OUTER),
+            )
+
+            @BeforeEach
+            fun setUp() {
+                whenever(itemRepository.findMinPricesByCategory()).thenReturn(partialItems)
+            }
+
+            @Test
+            @DisplayName("MusinsaException을 던진다")
+            fun `MusinsaException을 던진다`() {
+                assertThrows<MusinsaException> {
+                    categoryService.getMinPriceBrand()
                 }
             }
         }
